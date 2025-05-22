@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('type_evaluations', function (Blueprint $table) {
             $table->id();
+            $table->string('nom', 50)->unique();
+            $table->decimal('coefficient', 3, 2)->default(1.00);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -11,9 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('eleve_tuteurs', function (Blueprint $table) {
+         Schema::create('eleve_tuteurs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('eleve_id')->constrained('eleves')->onDelete('cascade');
+            $table->foreignId('type_tuteur_id')->constrained('type_tuteurs');
+            $table->foreignId('tuteur_id')->constrained('tuteurs');
+            $table->boolean('is_contact_urgence')->default(false);
+            $table->integer('priorite_contact')->default(1);
             $table->timestamps();
+            
+            $table->unique(['eleve_id', 'type_tuteur_id', 'tuteur_id']);
         });
     }
 

@@ -11,9 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('presences', function (Blueprint $table) {
+         Schema::create('presences', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('eleve_id')->constrained('eleves')->onDelete('cascade');
+            $table->foreignId('classe_id')->constrained('classes');
+            $table->date('date_cours');
+            $table->enum('statut', ['Présent', 'Absent', 'Retard', 'Excusé']);
+            $table->time('heure_arrivee')->nullable();
+            $table->text('commentaire')->nullable();
             $table->timestamps();
+            
+            $table->unique(['eleve_id', 'classe_id', 'date_cours']);
+            $table->index('date_cours');
         });
     }
 

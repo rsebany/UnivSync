@@ -11,9 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('emploi_temps', function (Blueprint $table) {
+          Schema::create('emploi_temps', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('classe_id')->constrained('classes')->onDelete('cascade');
+            $table->enum('jour_semaine', ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']);
+            $table->time('heure_debut');
+            $table->time('heure_fin');
+            $table->integer('semaine_type')->default(1);
             $table->timestamps();
+            
+            $table->index(['classe_id', 'jour_semaine']);
         });
     }
 

@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_salles', function (Blueprint $table) {
+         Schema::create('type_salles', function (Blueprint $table) {
             $table->id();
+            $table->string('nom', 100)->unique();
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

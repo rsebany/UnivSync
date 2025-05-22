@@ -13,8 +13,19 @@ return new class extends Migration
     {
         Schema::create('salles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('type_salle_id')->constrained('type_salles');
+            $table->string('nom_salle', 100)->unique();
+            $table->integer('capacite');
+            $table->integer('etage')->nullable();
+            $table->string('batiment', 50)->nullable();
+            $table->text('equipements')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+            
+            $table->index('type_salle_id');
         });
+
+       
     }
 
     /**

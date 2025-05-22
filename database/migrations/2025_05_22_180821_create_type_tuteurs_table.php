@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('type_tuteurs', function (Blueprint $table) {
             $table->id();
+            $table->string('nom_type', 100)->unique();
+            $table->text('description')->nullable();
+            $table->boolean('is_responsable_legal')->default(false);
+            $table->integer('priorite_contact')->default(1);
             $table->timestamps();
         });
     }

@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('departements', function (Blueprint $table) {
             $table->id();
+            $table->string('nom_departement', 100)->unique();
+            $table->unsignedBigInteger('chef_departement_id')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
+            
+            $table->index('chef_departement_id');
         });
     }
 

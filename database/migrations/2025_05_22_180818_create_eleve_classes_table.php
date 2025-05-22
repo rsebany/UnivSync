@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('eleve_classes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('eleve_id')->constrained('eleves')->onDelete('cascade');
+            $table->foreignId('classe_id')->constrained('classes')->onDelete('cascade');
+            $table->timestamp('date_inscription')->useCurrent();
+            $table->enum('statut', ['Inscrit', 'Présent', 'Absent', 'Excusé', 'Abandonné'])->default('Inscrit');
             $table->timestamps();
+            
+            $table->unique(['eleve_id', 'classe_id']);
         });
     }
 
