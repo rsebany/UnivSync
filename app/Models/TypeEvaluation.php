@@ -9,19 +9,10 @@ class TypeEvaluation extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nom_type',
-        'coefficient',
-        'description'
-    ];
-
+    protected $table = 'type_evaluation';
+    protected $fillable = ['nom', 'coefficient', 'description'];
+    
     protected $casts = [
         'coefficient' => 'decimal:2'
     ];
-
-    // Relations
-    public function evaluations()
-    {
-        return $this->hasMany(Evaluation::class);
-    }
 }

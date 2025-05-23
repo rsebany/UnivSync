@@ -9,58 +9,9 @@ class Tuteur extends Model
 {
     use HasFactory;
 
+    protected $table = 'tuteur';
     protected $fillable = [
-        'prenom',
-        'nom',
-        'email',
-        'telephone',
-        'adresse',
-        'profession',
-        'lien_parente',
-        'type_tuteur_id'
+        'prenom', 'nom', 'email', 'telephone',
+        'telephone_travail', 'adresse', 'profession'
     ];
-
-    // Relations
-    public function typeTuteur()
-    {
-        return $this->belongsTo(TypeTuteur::class);
-    }
-
-    public function eleves()
-    {
-        return $this->belongsToMany(Eleve::class, 'eleve_tuteurs')
-                    ->withPivot('is_principal')
-                    ->withTimestamps();
-    }
-
-    public function eleveTuteurs()
-    {
-        return $this->hasMany(EleveTuteur::class);
-    }
-
-    public function user()
-    {
-        return $this->morphOne(User::class, 'related');
-    }
-
-    // Accessors
-    public function getNomCompletAttribute()
-    {
-        return $this->prenom . ' ' . $this->nom;
-    }
-
-    // Scopes
-    public function scopeResponsableLegal($query)
-    {
-        return $query->whereHas('typeTuteur', function($q) {
-            $q->where('is_responsable_legal', true);
-        });
-    }
-
-    public function scopePrincipal($query)
-    {
-        return $query->whereHas('eleveTuteurs', function($q) {
-            $q->where('is_principal', true);
-        });
-    }
 }

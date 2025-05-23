@@ -9,27 +9,19 @@ class Matiere extends Model
 {
     use HasFactory;
 
+    protected $table = 'matiere';
     protected $fillable = [
-        'departement_id',
-        'nom_matiere',
-        'code_matiere',
-        'coefficient',
-        'heures_par_semaine',
-        'description'
+        'id_departement', 'nom_matiere', 'code_matiere',
+        'coefficient', 'heures_par_semaine', 'description', 'is_active'
     ];
-
+    
     protected $casts = [
-        'coefficient' => 'decimal:2'
+        'coefficient' => 'decimal:2',
+        'is_active' => 'boolean'
     ];
 
-    // Relations
     public function departement()
     {
-        return $this->belongsTo(Departement::class);
-    }
-
-    public function classes()
-    {
-        return $this->hasMany(Classe::class);
+        return $this->belongsTo(Departement::class, 'id_departement');
     }
 }

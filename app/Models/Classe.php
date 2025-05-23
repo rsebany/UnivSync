@@ -9,79 +9,45 @@ class Classe extends Model
 {
     use HasFactory;
 
+    protected $table = 'classe';
     protected $fillable = [
-        'matiere_id',
-        'enseignant_id',
-        'trimestre_id',
-        'niveau_id',
-        'salle_id',
-        'nom_classe',
-        'capacite_max',
-        'statut',
-        'description'
+        'id_matiere', 'id_enseignant', 'id_trimestre', 'id_niveau',
+        'id_periode_debut', 'id_periode_fin', 'id_salle', 'nom_classe',
+        'capacite_max', 'effectif_actuel', 'jour_semaine', 'statut'
     ];
 
-    // Relations
     public function matiere()
     {
-        return $this->belongsTo(Matiere::class);
+        return $this->belongsTo(Matiere::class, 'id_matiere');
     }
 
     public function enseignant()
     {
-        return $this->belongsTo(Enseignant::class);
+        return $this->belongsTo(Enseignant::class, 'id_enseignant');
     }
 
     public function trimestre()
     {
-        return $this->belongsTo(Trimestre::class);
+        return $this->belongsTo(Trimestre::class, 'id_trimestre');
     }
 
-    public function niveauScolaire()
+    public function niveau()
     {
-        return $this->belongsTo(NiveauScolaire::class, 'niveau_id');
+        return $this->belongsTo(NiveauScolaire::class, 'id_niveau');
+    }
+
+    public function periodeDebut()
+    {
+        return $this->belongsTo(Periode::class, 'id_periode_debut');
+    }
+
+    public function periodeFin()
+    {
+        return $this->belongsTo(Periode::class, 'id_periode_fin');
     }
 
     public function salle()
     {
-        return $this->belongsTo(Salle::class);
-    }
-
-    public function eleves()
-    {
-        return $this->belongsToMany(Eleve::class, 'eleve_classes')
-                    ->withPivot('statut', 'date_inscription')
-                    ->withTimestamps();
-    }
-
-    public function evaluations()
-    {
-        return $this->hasMany(Evaluation::class);
-    }
-
-    public function presences()
-    {
-        return $this->hasMany(Presence::class);
-    }
-
-    public function emploiTemps()
-    {
-        return $this->hasMany(EmploiTemps::class);
-    }
-
-    public function eleveClasses()
-    {
-        return $this->hasMany(EleveClasse::class);
-    }
-
-    // Scopes
-    public function scopeEnCours($query)
-    {
-        return $query->where('statut', 'en_cours');
-    }
-
-    public function scopePlanifiee($query)
-    {
-        return $query->where('statut', 'planifiee');
+        return $this->belongsTo(Salle::class, 'id_salle');
     }
 }

@@ -9,44 +9,28 @@ class NiveauEleve extends Model
 {
     use HasFactory;
 
+    protected $table = 'niveau_eleve';
     protected $fillable = [
-        'eleve_id',
-        'niveau_id',
-        'annee_id',
-        'moyenne_generale',
-        'rang_classe',
-        'total_eleves_classe',
-        'decision'
+        'id_eleve', 'id_niveau', 'id_annee', 'moyenne_generale',
+        'rang_classe', 'statut'
     ];
-
+    
     protected $casts = [
         'moyenne_generale' => 'decimal:2'
     ];
 
-    // Relations
     public function eleve()
     {
-        return $this->belongsTo(Eleve::class);
+        return $this->belongsTo(Eleve::class, 'id_eleve');
     }
 
-    public function niveauScolaire()
+    public function niveau()
     {
-        return $this->belongsTo(NiveauScolaire::class, 'niveau_id');
+        return $this->belongsTo(NiveauScolaire::class, 'id_niveau');
     }
 
     public function anneeScolaire()
     {
-        return $this->belongsTo(AnneeScolaire::class, 'annee_id');
-    }
-
-    // Scopes
-    public function scopeAdmis($query)
-    {
-        return $query->where('decision', 'admis');
-    }
-
-    public function scopeRedoublant($query)
-    {
-        return $query->where('decision', 'redouble');
+        return $this->belongsTo(AnneeScolaire::class, 'id_annee');
     }
 }

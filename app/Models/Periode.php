@@ -9,61 +9,20 @@ class Periode extends Model
 {
     use HasFactory;
 
+    protected $table = 'periode';
     protected $fillable = [
-        'nom_periode',
-        'date_debut',
-        'date_fin',
-        'type_periode',
-        'annee_id',
-        'ordre_periode',
-        'is_active',
-        'description'
+        'id_annee', 'nom', 'heure_debut', 'heure_fin', 
+        'jour_semaine', 'is_active'
     ];
-
+    
     protected $casts = [
-        'date_debut' => 'date',
-        'date_fin' => 'date',
+        'heure_debut' => 'datetime:H:i',
+        'heure_fin' => 'datetime:H:i',
         'is_active' => 'boolean'
     ];
 
-    // Relations
     public function anneeScolaire()
     {
-        return $this->belongsTo(AnneeScolaire::class, 'annee_id');
-    }
-
-    public function evaluations()
-    {
-        return $this->hasMany(Evaluation::class);
-    }
-
-    // Scopes
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
-
-    public function scopeEnCours($query)
-    {
-        $today = now()->toDateString();
-        return $query->whereDate('date_debut', '<=', $today)
-                    ->whereDate('date_fin', '>=', $today);
-    }
-
-    public function scopeOrdered($query)
-    {
-        return $query->orderBy('ordre_periode');
-    }
-
-    // Accessors
-    public function getDureeJoursAttribute()
-    {
-        return $this->date_debut->diffInDays($this->date_fin);
-    }
-
-    public function getEstEnCoursAttribute()
-    {
-        $today = now()->toDate();
-        return $today >= $this->date_debut && $today <= $this->date_fin;
+        return $this->belongsTo(AnneeScolaire::class, 'id_annee');
     }
 }

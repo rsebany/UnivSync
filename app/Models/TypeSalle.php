@@ -9,14 +9,6 @@ class TypeSalle extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'nom_type',
-        'description'
-    ];
-
-    // Relations
-    public function salles()
-    {
-        return $this->hasMany(Salle::class);
-    }
+    protected $table = 'type_salle';
+    protected $fillable = ['nom', 'description'];
 }

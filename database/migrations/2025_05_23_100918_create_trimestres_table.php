@@ -8,9 +8,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('trimestres', function (Blueprint $table) {
+        Schema::create('trimestre', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('annee_id')->constrained('annee_scolaires')->onDelete('cascade');
+            $table->foreignId('id_annee')->constrained('annee_scolaire')->onDelete('cascade');
             $table->integer('numero_trimestre');
             $table->string('nom_trimestre', 50)->nullable();
             $table->date('date_debut');
@@ -18,13 +18,14 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             
-            $table->unique(['annee_id', 'numero_trimestre']);
-            $table->index('annee_id');
+            $table->unique(['id_annee', 'numero_trimestre']);
+            //$table->check('date_fin > date_debut');
+            //$table->check('numero_trimestre BETWEEN 1 AND 4');
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('trimestres');
+        Schema::dropIfExists('trimestre');
     }
 };

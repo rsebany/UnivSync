@@ -8,10 +8,9 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('niveau_scolaires', function (Blueprint $table) {
+        Schema::create('type_salle', function (Blueprint $table) {
             $table->id();
-            $table->string('nom_niveau', 100)->unique();
-            $table->integer('ordre_niveau')->unique();
+            $table->string('nom', 100)->unique();
             $table->text('description')->nullable();
             $table->timestamps();
         });
@@ -19,6 +18,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('niveau_scolaires');
+        Schema::dropIfExists('type_salle');
     }
 };

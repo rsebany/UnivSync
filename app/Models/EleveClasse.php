@@ -9,31 +9,16 @@ class EleveClasse extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'eleve_id',
-        'classe_id',
-        'statut',
-        'date_inscription'
-    ];
+    protected $table = 'eleve_classe';
+    protected $fillable = ['id_eleve', 'id_classe', 'statut'];
 
-    protected $casts = [
-        'date_inscription' => 'date'
-    ];
-
-    // Relations
     public function eleve()
     {
-        return $this->belongsTo(Eleve::class);
+        return $this->belongsTo(Eleve::class, 'id_eleve');
     }
 
     public function classe()
     {
-        return $this->belongsTo(Classe::class);
-    }
-
-    // Scopes
-    public function scopeInscrit($query)
-    {
-        return $query->where('statut', 'inscrit');
+        return $this->belongsTo(Classe::class, 'id_classe');
     }
 }
