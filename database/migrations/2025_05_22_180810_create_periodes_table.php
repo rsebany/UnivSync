@@ -13,17 +13,15 @@ return new class extends Migration
     {
         Schema::create('periodes', function (Blueprint $table) {
             $table->id();
-            $table->string('nom_periode', 100);
-            $table->date('date_debut');
-            $table->date('date_fin');
-            $table->enum('type_periode', ['trimestre', 'semestre', 'annuel'])->default('trimestre');
             $table->foreignId('annee_id')->constrained('annee_scolaires')->onDelete('cascade');
-            $table->integer('ordre_periode');
-            $table->boolean('is_active')->default(false);
-            $table->text('description')->nullable();
+            $table->string('nom', 100);
+            $table->time('heure_debut');
+            $table->time('heure_fin');
+            $table->enum('jour_semaine', ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'])->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             
-            $table->unique(['annee_id', 'ordre_periode']);
+            $table->unique(['annee_id', 'nom', 'jour_semaine']);
         });
     }
 

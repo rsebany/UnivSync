@@ -11,19 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('bareme_notes', function (Blueprint $table) {
+        Schema::create('bareme_notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('niveau_id')->constrained('niveau_scolaires')->onDelete('cascade');
             $table->decimal('note_min', 4, 2);
             $table->decimal('note_max', 4, 2);
-            $table->string('mention', 50);
-            $table->string('appreciation', 100)->nullable();
-            $table->string('couleur_affichage', 7)->nullable(); // Code couleur hex
-            $table->integer('ordre_affichage')->default(1);
-            $table->boolean('is_admis')->default(true);
+            $table->string('mention', 20);
+            $table->string('couleur_code', 7)->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
-            
-            $table->unique(['niveau_id', 'note_min', 'note_max']);
         });
     }
 
