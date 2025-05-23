@@ -6,11 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
+        Schema::create('periodes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('annee_id')->constrained('annee_scolaires')->onDelete('cascade');
+            $table->string('nom', 100);
+            $table->time('heure_debut');
+            $table->time('heure_fin');
+            $table->enum('jour_semaine', ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'])->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+            
+            $table->unique(['annee_id', 'nom', 'jour_semaine']);
+        });
+        
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('matiere_id')->constrained('matieres');
@@ -32,11 +42,9 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('classes');
+        Schema::dropIfExists('periodes');
     }
 };

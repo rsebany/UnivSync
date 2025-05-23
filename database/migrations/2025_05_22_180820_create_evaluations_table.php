@@ -6,12 +6,41 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    { 
-       
+    public function up()
+    {
+        Schema::create('niveau_eleves', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('eleve_id')->constrained('eleves')->onDelete('cascade');
+            $table->foreignId('niveau_id')->constrained('niveau_scolaires');
+            $table->foreignId('annee_id')->constrained('annee_scolaires');
+            $table->decimal('moyenne_generale', 4, 2)->nullable();
+            $table->integer('rang_classe')->nullable();
+            $table->enum('statut', ['En cours', 'Admis', 'Redouble', 'Abandonné'])->default('En cours');
+            $table->timestamps();
+            
+            $table->unique(['eleve_id', 'niveau_id', 'annee_id']);
+            $table->index('annee_id');
+        });
+        
+        Schema::create('eleve_classes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('eleve_id')->constrained('eleves')->onDelete('cascade');
+            $table->foreignId('classe_id')->constrained('classes')->onDelete('cascade');
+            $table->timestamp('date_inscription')->useCurrent();
+            $table->enum('statut', ['Inscrit', 'Présent', 'Absent', 'Excusé', 'Abandonné'])->default('Inscrit');
+            $table->timestamps();
+            
+            $table->unique(['eleve_id', 'classe_id']);
+        });
+        
+        Schema::create('type_evaluations', function (Blueprint $table) {
+            $table->id();
+            $table->string('nom', 50)->unique();
+            $table->decimal('coefficient', 3, 2)->default(1.00);
+            $table->text('description')->nullable();
+            $table->timestamps();
+        });
+        
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('eleve_id')->constrained('eleves')->onDelete('cascade');
@@ -28,11 +57,11 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('evaluations');
+        Schema::dropIfExists('type_evaluations'); 
+        Schema::dropIfExists('eleve_classes');
+        Schema::dropIfExists('niveau_eleves');
     }
 };

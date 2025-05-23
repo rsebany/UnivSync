@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('enseignants', function (Blueprint $table) {
             $table->id();
@@ -30,13 +27,19 @@ return new class extends Migration
             $table->index(['nom', 'prenom']);
             $table->index('email');
         });
+        
+        // Ajouter la contrainte de clé étrangère après création de la table enseignants
+        Schema::table('departements', function (Blueprint $table) {
+            $table->foreign('chef_departement_id')->references('id')->on('enseignants');
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
+        Schema::table('departements', function (Blueprint $table) {
+            $table->dropForeign(['chef_departement_id']);
+        });
+        
         Schema::dropIfExists('enseignants');
     }
 };
