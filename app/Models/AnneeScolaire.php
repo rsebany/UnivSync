@@ -11,10 +11,19 @@ class AnneeScolaire extends Model
 
     protected $table = 'annee_scolaire';
     protected $fillable = ['nom_annee', 'date_debut', 'date_fin', 'is_active'];
-    
-    protected $casts = [
-        'date_debut' => 'date',
-        'date_fin' => 'date',
-        'is_active' => 'boolean'
-    ];
+
+    public function periodes()
+    {
+        return $this->hasMany(Periode::class, 'id_annee');
+    }
+
+    public function trimestres()
+    {
+        return $this->hasMany(Trimestre::class, 'id_annee');
+    }
+
+    public function niveauxEleves()
+    {
+        return $this->hasMany(NiveauEleve::class, 'id_annee');
+    }
 }

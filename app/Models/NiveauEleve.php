@@ -11,12 +11,8 @@ class NiveauEleve extends Model
 
     protected $table = 'niveau_eleve';
     protected $fillable = [
-        'id_eleve', 'id_niveau', 'id_annee', 'moyenne_generale',
-        'rang_classe', 'statut'
-    ];
-    
-    protected $casts = [
-        'moyenne_generale' => 'decimal:2'
+        'id_eleve', 'id_niveau', 'id_annee', 
+        'moyenne_generale', 'rang_classe', 'statut'
     ];
 
     public function eleve()
@@ -29,7 +25,7 @@ class NiveauEleve extends Model
         return $this->belongsTo(NiveauScolaire::class, 'id_niveau');
     }
 
-    public function anneeScolaire()
+    public function annee()
     {
         return $this->belongsTo(AnneeScolaire::class, 'id_annee');
     }

@@ -11,13 +11,8 @@ class Presence extends Model
 
     protected $table = 'presence';
     protected $fillable = [
-        'id_eleve', 'id_classe', 'date_cours', 'statut',
-        'heure_arrivee', 'commentaire'
-    ];
-    
-    protected $casts = [
-        'date_cours' => 'date',
-        'heure_arrivee' => 'datetime:H:i'
+        'id_eleve', 'id_classe', 'date_cours', 
+        'statut', 'heure_arrivee', 'commentaire'
     ];
 
     public function eleve()

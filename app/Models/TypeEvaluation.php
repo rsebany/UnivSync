@@ -11,8 +11,9 @@ class TypeEvaluation extends Model
 
     protected $table = 'type_evaluation';
     protected $fillable = ['nom', 'coefficient', 'description'];
-    
-    protected $casts = [
-        'coefficient' => 'decimal:2'
-    ];
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class, 'id_type_evaluation');
+    }
 }

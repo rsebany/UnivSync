@@ -10,11 +10,9 @@ class Departement extends Model
     use HasFactory;
 
     protected $table = 'departement';
-    protected $fillable = [
-        'nom_departement', 'chef_departement_id', 'description'
-    ];
+    protected $fillable = ['nom_departement', 'chef_departement_id', 'description'];
 
-    public function chefDepartement()
+    public function chef()
     {
         return $this->belongsTo(Enseignant::class, 'chef_departement_id');
     }
@@ -22,5 +20,10 @@ class Departement extends Model
     public function enseignants()
     {
         return $this->hasMany(Enseignant::class, 'departement_id');
+    }
+
+    public function matieres()
+    {
+        return $this->hasMany(Matiere::class, 'id_departement');
     }
 }

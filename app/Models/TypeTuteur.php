@@ -11,4 +11,9 @@ class TypeTuteur extends Model
 
     protected $table = 'type_tuteur';
     protected $fillable = ['nom', 'description'];
+
+    public function elevesTuteurs()
+    {
+        return $this->hasMany(EleveTuteur::class, 'id_type_tuteur');
+    }
 }

@@ -11,17 +11,17 @@ class Matiere extends Model
 
     protected $table = 'matiere';
     protected $fillable = [
-        'id_departement', 'nom_matiere', 'code_matiere',
+        'id_departement', 'nom_matiere', 'code_matiere', 
         'coefficient', 'heures_par_semaine', 'description', 'is_active'
-    ];
-    
-    protected $casts = [
-        'coefficient' => 'decimal:2',
-        'is_active' => 'boolean'
     ];
 
     public function departement()
     {
         return $this->belongsTo(Departement::class, 'id_departement');
+    }
+
+    public function classes()
+    {
+        return $this->hasMany(Classe::class, 'id_matiere');
     }
 }

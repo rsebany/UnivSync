@@ -10,19 +10,20 @@ class Periode extends Model
     use HasFactory;
 
     protected $table = 'periode';
-    protected $fillable = [
-        'id_annee', 'nom', 'heure_debut', 'heure_fin', 
-        'jour_semaine', 'is_active'
-    ];
-    
-    protected $casts = [
-        'heure_debut' => 'datetime:H:i',
-        'heure_fin' => 'datetime:H:i',
-        'is_active' => 'boolean'
-    ];
+    protected $fillable = ['id_annee', 'nom', 'heure_debut', 'heure_fin', 'jour_semaine', 'is_active'];
 
-    public function anneeScolaire()
+    public function annee()
     {
         return $this->belongsTo(AnneeScolaire::class, 'id_annee');
+    }
+
+    public function classesDebut()
+    {
+        return $this->hasMany(Classe::class, 'id_periode_debut');
+    }
+
+    public function classesFin()
+    {
+        return $this->hasMany(Classe::class, 'id_periode_fin');
     }
 }

@@ -10,17 +10,15 @@ class Salle extends Model
     use HasFactory;
 
     protected $table = 'salle';
-    protected $fillable = [
-        'type_salle_id', 'nom_salle', 'capacite', 'etage', 
-        'batiment', 'equipements', 'is_active'
-    ];
-    
-    protected $casts = [
-        'is_active' => 'boolean'
-    ];
+    protected $fillable = ['type_salle_id', 'nom_salle', 'capacite', 'etage', 'batiment', 'equipements', 'is_active'];
 
-    public function typeSalle()
+    public function type()
     {
         return $this->belongsTo(TypeSalle::class, 'type_salle_id');
+    }
+
+    public function classes()
+    {
+        return $this->hasMany(Classe::class, 'id_salle');
     }
 }

@@ -11,14 +11,8 @@ class Evaluation extends Model
 
     protected $table = 'evaluation';
     protected $fillable = [
-        'id_eleve', 'id_classe', 'id_type_evaluation', 'note',
-        'note_sur', 'date_evaluation', 'commentaire'
-    ];
-    
-    protected $casts = [
-        'note' => 'decimal:2',
-        'note_sur' => 'decimal:2',
-        'date_evaluation' => 'date'
+        'id_eleve', 'id_classe', 'id_type_evaluation', 
+        'note', 'note_sur', 'date_evaluation', 'commentaire'
     ];
 
     public function eleve()
@@ -31,8 +25,13 @@ class Evaluation extends Model
         return $this->belongsTo(Classe::class, 'id_classe');
     }
 
-    public function typeEvaluation()
+    public function type()
     {
         return $this->belongsTo(TypeEvaluation::class, 'id_type_evaluation');
+    }
+
+    public function getNoteSur20Attribute()
+    {
+        return ($this->note / $this->note_sur) * 20;
     }
 }

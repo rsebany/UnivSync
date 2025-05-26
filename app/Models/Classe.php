@@ -11,8 +11,8 @@ class Classe extends Model
 
     protected $table = 'classe';
     protected $fillable = [
-        'id_matiere', 'id_enseignant', 'id_trimestre', 'id_niveau',
-        'id_periode_debut', 'id_periode_fin', 'id_salle', 'nom_classe',
+        'id_matiere', 'id_enseignant', 'id_trimestre', 'id_niveau', 
+        'id_periode_debut', 'id_periode_fin', 'id_salle', 'nom_classe', 
         'capacite_max', 'effectif_actuel', 'jour_semaine', 'statut'
     ];
 
@@ -49,5 +49,27 @@ class Classe extends Model
     public function salle()
     {
         return $this->belongsTo(Salle::class, 'id_salle');
+    }
+
+    public function eleves()
+    {
+        return $this->belongsToMany(Eleve::class, 'eleve_classe', 'id_classe', 'id_eleve')
+                    ->withPivot('statut')
+                    ->withTimestamps();
+    }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class, 'id_classe');
+    }
+
+    public function presences()
+    {
+        return $this->hasMany(Presence::class, 'id_classe');
+    }
+
+    public function emploiTemps()
+    {
+        return $this->hasMany(EmploiTemps::class, 'id_classe');
     }
 }

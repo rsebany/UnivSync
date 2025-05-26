@@ -11,12 +11,8 @@ class EmploiTemps extends Model
 
     protected $table = 'emploi_temps';
     protected $fillable = [
-        'id_classe', 'jour_semaine', 'heure_debut', 'heure_fin', 'semaine_type'
-    ];
-    
-    protected $casts = [
-        'heure_debut' => 'datetime:H:i',
-        'heure_fin' => 'datetime:H:i'
+        'id_classe', 'jour_semaine', 'heure_debut', 
+        'heure_fin', 'semaine_type'
     ];
 
     public function classe()

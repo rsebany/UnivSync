@@ -11,4 +11,9 @@ class TypeSalle extends Model
 
     protected $table = 'type_salle';
     protected $fillable = ['nom', 'description'];
+
+    public function salles()
+    {
+        return $this->hasMany(Salle::class, 'type_salle_id');
+    }
 }
