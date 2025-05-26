@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('evaluation', function (Blueprint $table) {
             $table->id();
@@ -19,13 +22,16 @@ return new class extends Migration
             $table->text('commentaire')->nullable();
             $table->timestamps();
             
-            //$table->check('note >= 0 AND note <= note_sur');
+           // $table->check('note >= 0 AND note <= note_sur');
             $table->index(['id_eleve', 'id_classe']);
             $table->index('date_evaluation');
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('evaluation');
     }

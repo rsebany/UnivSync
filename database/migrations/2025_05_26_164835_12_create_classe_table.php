@@ -6,30 +6,33 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('classe', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_matiere')->constrained('matiere');
-            $table->foreignId('id_enseignant')->constrained('enseignant');
-            $table->foreignId('id_trimestre')->constrained('trimestre');
-            $table->foreignId('id_niveau')->constrained('niveau_scolaire');
-            $table->foreignId('id_periode_debut')->constrained('periode');
-            $table->foreignId('id_periode_fin')->nullable()->constrained('periode');
-            $table->foreignId('id_salle')->nullable()->constrained('salle');
+            $table->unsignedBigInteger('id_matiere');
+            $table->unsignedBigInteger('id_enseignant');
+            $table->unsignedBigInteger('id_trimestre');
+            $table->unsignedBigInteger('id_niveau');
+            $table->unsignedBigInteger('id_periode_debut');
+            $table->unsignedBigInteger('id_periode_fin')->nullable();
+            $table->unsignedBigInteger('id_salle')->nullable();
             $table->string('nom_classe', 100);
             $table->integer('capacite_max')->default(30);
             $table->integer('effectif_actuel')->default(0);
             $table->enum('jour_semaine', ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'])->nullable();
             $table->enum('statut', ['Programmée', 'En cours', 'Terminée', 'Annulée'])->default('Programmée');
             $table->timestamps();
-            
-            //$table->check('capacite_max > 0');
-            //$table->check('effectif_actuel >= 0 AND effectif_actuel <= capacite_max');
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('classe');
     }

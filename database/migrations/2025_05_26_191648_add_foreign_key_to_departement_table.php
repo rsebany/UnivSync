@@ -6,18 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::table('departement', function (Blueprint $table) {
             $table->foreign('chef_departement_id')
                   ->references('id')
                   ->on('enseignant')
-                  ->nullOnDelete()
-                  ->after('nom_departement');
+                  ->onDelete('set null');
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('departement', function (Blueprint $table) {
             $table->dropForeign(['chef_departement_id']);

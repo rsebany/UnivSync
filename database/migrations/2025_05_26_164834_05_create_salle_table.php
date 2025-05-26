@@ -3,11 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('salle', function (Blueprint $table) {
             $table->id();
@@ -19,18 +21,16 @@ return new class extends Migration
             $table->text('equipements')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
+            
+            //$table->check('capacite > 0');
         });
-
-        // Ajout de la contrainte CHECK via requête SQL brute
-        DB::statement('ALTER TABLE salle ADD CONSTRAINT chk_capacite_positive CHECK (capacite > 0)');
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::table('salle', function (Blueprint $table) {
-            $table->dropForeign(['type_salle_id']);
-        });
-        
         Schema::dropIfExists('salle');
     }
 };
